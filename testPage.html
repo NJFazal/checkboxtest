@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable Rows</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .row-item {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            text-align: center;
+        }
+        .row-item:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 row-item" onclick="showTable(1)">Row 1</div>
+            <div class="col-12 row-item" onclick="showTable(2)">Row 2</div>
+            <div class="col-12 row-item" onclick="showTable(3)">Row 3</div>
+        </div>
+
+        <!-- Table 1 -->
+        <div id="table-container-1" class="mt-4" style="display: none;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th><th>First</th><th>Last</th><th>Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>1</th><td>Mark</td><td>Otto</td>
+                        <td><input type="checkbox" data-table="1" data-id="1"></td>
+                    </tr>
+                    <tr>
+                        <th>2</th><td>Jacob</td><td>Thornton</td>
+                        <td><input type="checkbox" data-table="1" data-id="2"></td>
+                    </tr>
+                    <tr>
+                        <th>3</th><td>Larry</td><td>the Bird</td>
+                        <td><input type="checkbox" data-table="1" data-id="3"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="saveCheckboxes(1)">Save</button>
+        </div>
+
+        <!-- Table 2 -->
+        <div id="table-container-2" class="mt-4" style="display: none;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th><th>First</th><th>Last</th><th>Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>1</th><td>Nicky</td><td>Ravee</td>
+                        <td><input type="checkbox" data-table="2" data-id="1"></td>
+                    </tr>
+                    <tr>
+                        <th>2</th><td>Meg</td><td>Gary</td>
+                        <td><input type="checkbox" data-table="2" data-id="2"></td>
+                    </tr>
+                    <tr>
+                        <th>3</th><td>Mark</td><td>Ruby</td>
+                        <td><input type="checkbox" data-table="2" data-id="3"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="saveCheckboxes(2)">Save</button>
+        </div>
+
+        <!-- Table 3 -->
+        <div id="table-container-3" class="mt-4" style="display: none;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th><th>First</th><th>Last</th><th>Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>1</th><td>Bibi</td><td>Schatzie</td>
+                        <td><input type="checkbox" data-table="3" data-id="1"></td>
+                    </tr>
+                    <tr>
+                        <th>2</th><td>Liebling</td><td>Mark</td>
+                        <td><input type="checkbox" data-table="3" data-id="2"></td>
+                    </tr>
+                    <tr>
+                        <th>3</th><td>Chouchou</td><td>Cherie</td>
+                        <td><input type="checkbox" data-table="3" data-id="3"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" onclick="saveCheckboxes(3)">Save</button>
+        </div>
+    </div>
+
+    <script>
+        // Store checkbox states
+        let savedCheckboxes = {};
+
+        function showTable(tableNumber) {
+            // Hide all tables
+            document.getElementById('table-container-1').style.display = 'none';
+            document.getElementById('table-container-2').style.display = 'none';
+            document.getElementById('table-container-3').style.display = 'none';
+
+            // Reset checkboxes to unchecked (unless saved)
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                let table = checkbox.getAttribute('data-table');
+                let id = checkbox.getAttribute('data-id');
+                if (savedCheckboxes[table] && savedCheckboxes[table][id]) {
+                    checkbox.checked = true;
+                } else {
+                    checkbox.checked = false;
+                }
+            });
+
+            // Show the selected table
+            document.getElementById('table-container-' + tableNumber).style.display = 'block';
+        }
+
+        function saveCheckboxes(tableNumber) {
+            // If no entry exists, create it
+            if (!savedCheckboxes[tableNumber]) {
+                savedCheckboxes[tableNumber] = {};
+            }
+
+            // Save only the checked checkboxes
+            document.querySelectorAll(`input[data-table="${tableNumber}"]`).forEach(checkbox => {
+                let id = checkbox.getAttribute('data-id');
+                savedCheckboxes[tableNumber][id] = checkbox.checked;
+            });
+
+            alert("Selections saved!");
+        }
+    </script>
+</body>
+</html>
